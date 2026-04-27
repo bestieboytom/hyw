@@ -22,11 +22,23 @@ na čas ("E2E běží 10× déle, zvaž pro teď Vitest").
 
 ## Jak postupuješ
 
-### 1. Zorientuj se
-Přečti `PRD.md` a projdi `src/app/` + `src/lib/`. Všimni si:
+### 1. Zorientuj se a navrhni co testovat
+Přečti `PRD.md` a projdi `src/app/` + `src/lib/`. Udělej si přehled:
 - Jaké komponenty appka má
 - Jestli používá Supabase client (typicky `src/lib/supabase.ts`)
 - Jaké server actions existují
+- Jaké utility funkce jsou v `src/lib/`
+
+**Ukaž uživateli návrh** před tím, než začneš psát testy:
+
+"Podíval jsem se na tvůj kód a PRD. Navrhuji otestovat:
+1. [utility funkce] — čistá logika, žádné závislosti
+2. [komponenta X] — renderuje se správně, reaguje na klik
+3. [Supabase volání Y] — mock Supabase, ověří že data proudí správně
+
+Začnu? Nebo chceš testovat něco jiného?"
+
+Čekej na souhlas. Účastník může mít lepší představu co ho trápí.
 
 ### 2. Instalace
 

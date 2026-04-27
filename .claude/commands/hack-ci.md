@@ -82,21 +82,14 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: https://dummy.supabase.co
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummy
 ```
 
-### 4. Nastavení secrets na GitHubu
+Build nepotřebuje reálné Supabase klíče — Next.js je čte až za běhu.
+Dummy hodnoty stačí, aby build prošel (validní URL + JWT formát).
 
-Řekni uživateli, že build potřebuje stejné env proměnné, co má na Vercelu.
-Navigace: `github.com/<user>/<repo>/settings/secrets/actions` → New repository secret.
-Přidat dvě:
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
-
-Hodnoty najde v `.env.local`.
-
-Nabídni: "Můžu otevřít tu stránku v prohlížeči?" → pokud ano, `gh` CLI nebo
+### 4. Ověření
 prostě vypsat URL.
 
 ### 5. Commit + push
