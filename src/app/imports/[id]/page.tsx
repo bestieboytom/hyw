@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { formatDateTime, statusBadgeClass } from '@/lib/format';
 import type { ApiCallLog, InvoiceImport } from '@/lib/supabase/types';
 import { RetryButton } from './_components/retry-button';
+import { ResolveForm } from './_components/resolve-form';
 
 export const dynamic = 'force-dynamic';
 
@@ -65,10 +66,43 @@ export default async function ImportDetailPage({
             · pokus #{item.attempt_count}
           </div>
         </div>
-        {(item.status === 'failed' || item.status === 'needs_review') && (
-          <RetryButton id={item.id} />
-        )}
+        {item.status === 'failed' && <RetryButton id={item.id} />}
       </header>
+
+      {item.status === 'needs_review' && (
+        <section className="space-y-3 rounded-lg border border-amber-300 bg-amber-50 p-4">
+          <div className="flex items-start gap-2">
+            <span aria-hidden className="text-xl leading-none">⚠</span>
+            <div className="space-y-1">
+              <h2 className="text-sm font-semibold text-amber-900">
+                Faktura vyžaduje manuální kontrolu
+              </h2>
+              {item.error_message && (
+                <p className="text-sm text-amber-900">{item.error_message}</p>
+              )}
+            </div>
+          </div>
+          <ResolveForm id={item.id} />
+        </section>
+      )}
+
+      {item.status === 'resolved' && (
+        <section className="space-y-2 rounded-lg border border-emerald-300 bg-emerald-50 p-4">
+          <div className="flex items-start gap-2">
+            <span aria-hidden className="text-xl leading-none">✓</span>
+            <div className="space-y-1">
+              <h2 className="text-sm font-semibold text-emerald-900">
+                Vyřešeno {formatDateTime(item.resolved_at)}
+              </h2>
+            </div>
+          </div>
+          {item.resolution_note && (
+            <pre className="overflow-auto whitespace-pre-wrap rounded border border-emerald-200 bg-white p-2 text-xs text-emerald-900">
+              {item.resolution_note}
+            </pre>
+          )}
+        </section>
+      )}
 
       <section className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <Field label="Pohoda ID" value={item.pohoda_id} />
