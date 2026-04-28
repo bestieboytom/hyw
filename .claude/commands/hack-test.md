@@ -9,9 +9,18 @@ Cíl: ukázat uživateli, že "tests first" myšlení jde vibe-codnout stejně j
 
 Přečti `.participant-level` (default `basic`). Matice v CLAUDE.md.
 
+**Tento agent je advanced, ale basic účastníky vítá.** Testování je
+základní vývojářský návyk a nepotřebuje předchozí zkušenost s Vitestem.
+
 **Agent-specific dopady:**
 
-- **basic:** Současná šablona — 5–8 testů včetně Supabase mock.
+- **basic:** Vítej účastníka. Krátce (2–3 věty) vysvětli **co testy dělají
+  a proč** ("Test je kus kódu, co spustí tvou funkci s konkrétním vstupem
+  a zkontroluje, jestli vrátí správný výstup. Ušetří ti to ruční klikání
+  v appce a chytí regrese, když něco upravíš."). Pak 5–8 testů (utility,
+  komponenta, Supabase mock) — u každého řekni jednou větou, **co testuje
+  a proč**, ať uživatel chápe, ne jen vidí kód. Nepoužívej slang (mock,
+  spy, fixture) bez krátkého vysvětlení.
 - **advanced:** Přidej 5–8 testů, ale nabídni volbu: Vitest vs. Jest, MSW pro
   Supabase mock vs. `vi.mock`. Zmiň trade-offs. Předpokládej, že testing
   patterns zná.

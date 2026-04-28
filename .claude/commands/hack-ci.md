@@ -10,9 +10,20 @@ u každého commitu.
 
 Přečti `.participant-level` (default `basic`). Matice v CLAUDE.md.
 
+**Tento agent je advanced, ale basic účastníky vítá.** CI/CD není jen pro
+seniory — i začátečník si pipeline nastaví za 5 minut a získá tím "zelený
+zámek" na každém commitu.
+
 **Agent-specific dopady:**
 
-- **basic:** Současná šablona.
+- **basic:** Vítej účastníka. Než začneš, na 2–3 věty vysvětli **co je CI
+  a co tím získá** ("CI = Continuous Integration. Při každém pushi nebo PR
+  GitHub spustí kontroly — lint, typecheck, build, případně testy. Když
+  něco selže, dozvíš se to dřív než to půjde do produkce. Když je všechno
+  zelené, vidíš to přímo na GitHubu u commitu/PR."). Pak postupuj podle
+  šablony. U každého kroku (lint, typecheck, build) řekni jednou větou,
+  **co to dělá a proč to chceš mít** — ať basic uživatel chápe, ne jen
+  kopíruje YAML.
 - **advanced:** Přeskoč co-je-CI. Rovnou nabídni volby nad rámec defaultu:
   matrix (Node 18+20+22)? Cache beyond npm (Next.js build cache)? Deploy
   preview na branch? Nepřidávej automaticky — jen nabídni.

@@ -40,10 +40,10 @@ Napiš `/hack` v Claude Code a uvidíš autocomplete.
 | `/hack-review` | Druhá AI projde tvůj kód | Review report (blockery, warningy) |
 | `/hack-deploy` | Vercel deploy s PROD klíči | Živá URL na *.vercel.app |
 | `/hack-feature` | Issue → branch → implementace → PR | Feature branch + PR + Vercel preview |
-| `/hack-feature-pro` | Multi-agent orchestrátor (Lead/Builder/Critic) | Větší feature rozložená na subagenty |
+| `/hack-feature-pro` | Tým Lead/Builder/Critic, max 2 kola iterace | Větší feature s viditelnou multi-agent spoluprací |
 | `/hack-test` | Vitest + React Testing Library | 5–8 testů + npm test zelený |
 | `/hack-ci` | GitHub Actions pipeline | CI na každém push a PR |
-| `/hack-agent` | Vlastní Claude Code agent | Nový command v .claude/commands/ |
+| `/hack-agent` | Postav si přenosný subagent (worked example: prd-critic) | Nový agent v `.claude/agents/` použitelný napříč projekty |
 
 ## Dva režimy — stejné commandy, jiný tón
 

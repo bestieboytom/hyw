@@ -39,17 +39,51 @@ Spusť `gh --version`.
 účastník nechce/nemůže instalovat, workshop půjde dokončit, ale s manuálními kroky
 na webu.
 
-### 5. GitHub přihlášení + oprávnění
-Pokud `gh` existuje, spusť `gh auth status`.
-- ✓ pokud přihlášen a výstup obsahuje `repo` scope (nebo `read:org` — znamená
-  to, že token má dostatečná oprávnění)
-- ✗ pokud nepřihlášen. Řekni: "Přihlas se přes: `gh auth login`"
-- ⚠ pokud přihlášen, ale chybí `repo` scope. Řekni: "Nemáš oprávnění pro
-  vytváření repozitářů. Spusť: `gh auth refresh -s repo`"
+### 5. GitHub přihlášení + oprávnění (BLOCKER pro krok 10)
 
-Dále ověř, že `gh` umí pushovat — spusť `ssh -T git@github.com 2>&1` (nebo
-`gh auth setup-git` pro HTTPS). Pokud SSH selže a HTTPS taky, zaznamenej si
-to pro krok 10 (push nebude fungovat).
+Pokud `gh` existuje, spusť `gh auth status`. Pro krok 10 potřebujeme
+**oboje scope**: `repo` (založit repo + push) **a** `read:user` (zjistit
+identitu vlastníka). Bez nich `gh repo create --push` selže až ve chvíli,
+kdy už jsme smazali workshop-kit origin — to je horší než nepokračovat.
+
+**Vyhodnocení:**
+
+- ✓ Přihlášen **a** výstup obsahuje `repo` **i** `read:user` scope
+  (tip: `read:org` typicky impliciuje `read:user`, ale neber to za jisté —
+  ověř že tam je explicitně `read:user`)
+- ✗ Nepřihlášen → **BLOCKER**. Řekni: "Přihlas se: `gh auth login`. Vyber
+  GitHub.com → HTTPS → Authenticate Git with credentials → Login with
+  a web browser. Až budeš hotov, spusť `/hack-check` znovu."
+- ✗ Přihlášen, ale chybí `repo` nebo `read:user` scope → **BLOCKER**.
+  **Toto je nejčastější u corporate accountů (přihlášení přes token bez
+  doscope-ovaných oprávnění).** Postup podle toho, jak je přihlášen:
+
+  **a) Browser auth (`gh auth login` přes prohlížeč):**
+  ```bash
+  gh auth refresh -s repo,read:user
+  ```
+  Otevře browser, dovolí scopes, hotovo.
+
+  **b) Token auth (`gh auth login --with-token`, typicky corporate):**
+  `gh auth refresh` u token-auth **nefunguje** — musí se vygenerovat
+  nový PAT. Řekni:
+  > "Tvůj token nemá scopes `repo` a `read:user`. Jdi na
+  > https://github.com/settings/tokens → Generate new token (classic) →
+  > zaškrtni `repo` (celý blok) a `read:user`. Zkopíruj nový token a
+  > spusť `gh auth login --with-token < token.txt` (nebo paste
+  > do prompty `gh auth login --with-token`). Pak `/hack-check` znovu."
+
+  **Pokud uživatel scopes opraví** → spusť `/hack-check` znovu.
+  **Pokud nechce/nemůže** (firemní omezení, nemá oprávnění generovat
+  PAT s `repo` scope) → krok 10 přeskoč, vytvoř `.github-pending`,
+  workshop pokračuje. Není to blocker pro *workshop*, je to blocker
+  jen pro `gh repo create --push` — workshop jde dokončit lokálně
+  a repo nastavit ručně později přes `/hack-deploy`.
+
+**Detekce typu auth (pomáhá rozhodnout které z a/b doporučit):**
+`gh auth status` vypisuje `Token: gho_*` (browser/oauth) vs `ghp_*`
+(personal access token, většinou `--with-token`). Není to 100% spolehlivé,
+ale dobré vodítko.
 
 ### 6. Supabase přístup
 Zeptej se uživatele: "Přihlásíš se na https://supabase.com/dashboard — vidíš svůj
@@ -114,16 +148,32 @@ Potom:
 
 **Pre-flight (před smazáním originu!):**
 
+Pravidlo: **pokud cokoliv tady selže, NESMAŽEME workshop-kit origin** a
+pošleme uživatele do fallbacku. Smazat origin a pak zjistit, že push
+nefunguje, je nejhorší případ — repo je v rozbitém stavu.
+
 ```bash
-# 1. Ověř, že gh umí pushovat — vytvoř testovací repo a hned smaž
+# 1. Identita — gh musí umět zavolat /user
 gh api user -q .login
 ```
+Selže → fallback (gh není funkční nebo není přihlášen).
 
-Pokud `gh api user` selže, push nebude fungovat → přeskoč na fallback níže.
+```bash
+# 2. Scopes na tokenu — musí být repo + read:user
+gh auth status 2>&1 | grep -i "scopes"
+```
+Výstup **musí obsahovat současně `repo` i `read:user`**. Krok 5 to měl
+ověřit, ale tohle je pojistka pro případ, že se token mezitím změnil
+nebo krok 5 přehlédl. Pokud chybí → fallback (a vrať uživatele do
+kroku 5 instrukcí).
 
-Pokud `gh` funguje, zkontroluj git protocol. Spusť `gh auth setup-git` — to
-nastaví HTTPS credential helper, což obchází případné problémy s SSH klíči.
-Tohle je nejspolehlivější cesta pro workshop (účastníci nemusí řešit SSH).
+```bash
+# 3. Nastav HTTPS credential helper přes gh — vyhne se SSH klíčům
+gh auth setup-git
+```
+Tohle nakonfiguruje git, aby používal `gh` jako credential helper pro
+GitHub HTTPS pushe. Pro **token-auth uživatele** (corporate) je to
+klíčový krok — bez něj git push spadne na "could not read Username".
 
 **Teprve po úspěšném pre-flightu pokračuj:**
 
@@ -166,7 +216,7 @@ Na konci ukaž souhrn:
  2. npm          ✓ v10.2.0
  3. Git          ✓ v2.43.0
  4. GitHub CLI   ✓ v2.40.0
- 5. GitHub auth  ✓ přihlášen
+ 5. GitHub auth  ✓ přihlášen (scopes: repo, read:user)
  6. Supabase     ✓ / ✗
  7. Vercel       ✓ / ✗
  8. Claude Code  ✓

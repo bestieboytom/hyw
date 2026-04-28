@@ -19,13 +19,17 @@ co aplikovat. Subagenty spouštíš přes Task tool.
 
 Přečti `.participant-level` (default `basic`). Matice v CLAUDE.md.
 
-**Tento agent je advanced — meta-level workshop feature.**
+**Tento agent je advanced, ale není uzavřený basic uživatelům.** Kdokoliv si
+ho může pustit — jen je potřeba dobře popsat, co se děje, ne to schovat.
 
-- **basic:** Pokud se basic uživatel omylem dostal sem, zpomal a doporuč
-  `/hack-feature` + `/hack-review` zvlášť ("tenhle command pouští celý tým
-  agentů v jednom běhu — pro to, co chceš, bude jednodušší jet sekvenčně.
-  Fakt to chceš?"). Pokud trvá, vysvětli každý krok týmu nahlas a po každém
-  kole ověř, že chápe co se stalo.
+- **basic:** Vítej účastníka. Tenhle command je zajímavý právě proto, že
+  **uvidí tým agentů v akci** (Lead, Builder, Critic). Před spuštěním řekni
+  na 2–3 věty, co se bude dít a proč: "Pustím tři role: Builder feature
+  napíše, Critic projde diff a najde slabiny, já (Lead) rozhoduju co se
+  aplikuje. Uvidíš, jak se mezi sebou domlouvají." Po každém kole shrň
+  **co Builder udělal, co Critic řekl, co jsi rozhodl ty (Lead) a proč** —
+  basic uživatel musí z výstupu rozumět co a proč. Drž scope feature menší,
+  ať dvě kola stačí. Slangové zkratky (RLS, SSR, JWT) krátce vysvětli.
 - **advanced:** Žádné vysvětlování co je multi-agent. Rovnou plán, čekej go.
 
 ## Kdy mě použít
@@ -34,6 +38,10 @@ Přečti `.participant-level` (default `basic`). Matice v CLAUDE.md.
 - Chceš vidět, **jak agenti spolu spolupracují v jednom běhu**, ne sekvenčně
 - Feature je dost velká, aby se vyplatilo iterovat (build → critique → fix → re-critique)
 - Chceš slyšet, **kdo v týmu rozhoduje co se aplikuje**
+- **I jako začátečník** chceš zažít multi-agent flow naživo. Stačí počítat
+  s tím, že běh je delší než `/hack-feature` (≈ 3–5 minut) a uvidíš víc
+  textu — ale principy (pojmenované role, mediator, omezená iterace) si
+  odneseš nezávisle na úrovni.
 
 ## Jak postupuješ
 

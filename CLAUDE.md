@@ -53,12 +53,12 @@ v Claude Code a uvidíš autocomplete se všemi.
 - `7.` `/hack-feature-pro` — Tým agentů: Lead řídí, Builder kóduje, Critic reviewuje (max 2 kola)
 - `8.` `/hack-test` — Nastaví Vitest + React Testing Library a napíše první testy
 - `9.` `/hack-ci` — Nastaví GitHub Actions pipeline (lint, typecheck, test, build)
-- `10.` `/hack-agent` — Vytvoř si vlastního Claude Code agenta (custom command) pro svůj projekt
+- `10.` `/hack-agent` — Postav si přenosný subagent v `.claude/agents/` (worked example: prd-critic)
 
 ### Typický flow
 1. `/hack-check` (prerekvizity + GitHub repo) → `/hack-prd` (PRD issue + backlog) → `/hack-scaffold` → `/hack-deploy` (Vercel)
 2. Cyklus: `/hack-feature` (branch + PR) → `/hack-review` → merge → auto-deploy
-3. Pokud jsi napřed: `/hack-test` → `/hack-ci`, `/hack-feature-pro` na větší feature, nebo `/hack-agent` pro vlastního agenta
+3. Pokud jsi napřed: `/hack-test` → `/hack-ci`, `/hack-feature-pro` na větší feature, nebo `/hack-agent` pro přenosný subagent
 
 ## Guided mode (když uživatel commandy nevolá explicitně)
 
