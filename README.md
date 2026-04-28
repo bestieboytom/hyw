@@ -1,4 +1,19 @@
-# PRD Vibe Kit
+# HYW — Fakturoid → Pohoda Sync Dashboard
+
+Admin dashboard pro sync vystavených faktur z Fakturoidu do Stormware POHODA. Zobrazuje sync běhy, stav importu jednotlivých faktur, raw HTTP logy a umožňuje manuální retry. Pro účetní iProdukce a tech správce.
+
+## Stack
+Next.js + Supabase + Tailwind + Vercel
+
+## Lokální vývoj
+```bash
+npm install
+npm run dev
+```
+
+---
+
+# Workshop kit (původní README)
 
 Předpřipravený kit s AI agenty pro **Product Vibe Coding** workshop.
 
