@@ -42,7 +42,7 @@ Na základě PRD:
    Proto appku inicializuj do dočasného podadresáře a pak ji přesuň:
 
    ```bash
-   npx create-next-app@15.5.3 _nextapp --typescript --tailwind --eslint --app --src-dir --import-alias "@/*" --use-npm
+   npx create-next-app@15.5.15 _nextapp --typescript --tailwind --eslint --app --src-dir --import-alias "@/*" --use-npm
    ```
 
 2. **Přesuň obsah appky do kořene projektu:**
