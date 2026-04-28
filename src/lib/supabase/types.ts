@@ -23,7 +23,8 @@ export type InvoiceImportStatus =
   | 'success'
   | 'failed'
   | 'skipped'
-  | 'needs_review';
+  | 'needs_review'
+  | 'resolved';
 
 export type InvoiceImport = {
   id: number;
@@ -41,6 +42,9 @@ export type InvoiceImport = {
   fakturoid_snapshot: unknown;
   pohoda_request: string | null;
   pohoda_response: string | null;
+  resolution_note: string | null;
+  resolved_at: string | null;
+  resolved_by: string | null;
   created_at: string;
   updated_at: string;
   deleted_at: string | null;

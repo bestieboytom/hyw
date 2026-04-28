@@ -12,6 +12,7 @@ export function statusBadgeClass(status: string): string {
     'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium';
   switch (status) {
     case 'success':
+    case 'resolved':
       return `${base} bg-emerald-100 text-emerald-800`;
     case 'failed':
       return `${base} bg-rose-100 text-rose-800`;

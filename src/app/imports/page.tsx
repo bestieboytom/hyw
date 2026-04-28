@@ -11,6 +11,7 @@ const STATUSES: (InvoiceImportStatus | 'all')[] = [
   'success',
   'failed',
   'needs_review',
+  'resolved',
   'skipped',
 ];
 
